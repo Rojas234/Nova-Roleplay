@@ -14,6 +14,7 @@
             --bg-color: #020617;
             --text-white: #f8fafc;
             --glow: 0 0 15px rgba(168, 85, 247, 0.6);
+            --red-owner: #ef4444; /* Color rojo para Owners */
         }
 
         body {
@@ -107,11 +108,6 @@
         }
         .online-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-right: 10px; background-color: #6b7280; }
 
-        /* --- LISTA DE PASOS --- */
-        ol { padding-left: 20px; }
-        ol li { margin-bottom: 12px; line-height: 1.4; }
-        ol li strong { color: var(--purple-main); }
-
         /* --- STAFF --- */
         .staff-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
         .staff-box { 
@@ -123,11 +119,23 @@
             text-align: center;
             transition: 0.3s;
         }
+
+        /* Si el staff-box contiene un owner, el borde también cambia a rojo */
+        .staff-box:has(.owner) { border-color: var(--red-owner); }
+
         .staff-box:hover { transform: translateY(-10px); box-shadow: 0 0 25px var(--purple-main); }
+        .staff-box:has(.owner):hover { box-shadow: 0 0 25px var(--red-owner); }
+
         .avatar-container img { width: 100px; height: 100px; border-radius: 15px; border: 2px solid var(--purple-main); margin-bottom: 15px; object-fit: cover; }
+        
+        /* Borde de foto rojo para owners */
+        .staff-box:has(.owner) .avatar-container img { border-color: var(--red-owner); }
+
         .rank { display: block; padding: 6px; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.7rem; font-weight: bold; margin-top: 10px; color: white; }
-        .owner { background: #ef4444; }
-        .admin { background: #a855f7; }
+        
+        /* Rangos: Solo Owner en Rojo, el resto en Morado */
+        .owner { background: var(--red-owner); }
+        .admin { background: var(--purple-main); }
 
         .section-title { font-family: 'Orbitron'; text-align: center; color: var(--purple-main); margin: 40px 0; text-transform: uppercase; letter-spacing: 2px; }
         footer { text-align: center; padding: 30px; opacity: 0.6; font-size: 0.8rem; border-top: 1px solid rgba(168, 85, 247, 0.2); }
@@ -148,7 +156,6 @@
 
     <main>
         <div id="seccion-inicio" class="content-section active">
-            
             <div class="grid-container">
                 <div class="card status-box">
                     <h3>SERVIDOR</h3>
@@ -194,39 +201,39 @@
                 <div class="staff-box">
                     <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1337966495409504379/76956306db9cf508330540568b5fbcb7.webp?size=1024" alt="Admin"></div>
                     <h4>Alejandro</h4>
-                    <span class="rank admin">Owner</span>
+                    <span class="rank owner">Owner</span>
                 </div>
-                  <div class="staff-box">
+                <div class="staff-box">
                     <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1224123835176058972/4b0a20b172a993f986b73c4d288fc82a.webp?size=1024" alt="Admin"></div>
                     <h4>Ariel</h4>
                     <span class="rank admin">CEO</span>
                 </div>
-                  <div class="staff-box">
+                <div class="staff-box">
                     <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1299835094131019806/8c7a0dfd91791e9adedda4f1f16b138d.webp?size=1024" alt="Admin"></div>
                     <h4>Cronos</h4>
                     <span class="rank admin">Developer</span>
                 </div>
-                  <div class="staff-box">
+                <div class="staff-box">
                     <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1395860839218806945/7af1e3c29c2d1ae03bcb6607047e8aa7.webp?size=1024" alt="Admin"></div>
                     <h4>Davo</h4>
                     <span class="rank admin">Administrador</span>
                 </div>
-                  <div class="staff-box">
+                <div class="staff-box">
                     <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1459680832720601188/92c1f741a480198fe2ddcb94d7f27f3e.webp?size=1024" alt="Admin"></div>
                     <h4>Perto</h4>
                     <span class="rank admin">Mod grobal</span>
                 </div>
-                  <div class="staff-box">
+                <div class="staff-box">
                     <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/426583042921070592/1a10a6b7e8717b4bf73731eacc272923.webp?size=1024" alt="Admin"></div>
                     <h4>Cristian</h4>
                     <span class="rank admin">Mod a prueba</span>
                 </div>
-                  <div class="staff-box">
+                <div class="staff-box">
                     <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1462450392624529594/0760023219121e89cac920fc8620e0a1.webp?size=1024" alt="Admin"></div>
                     <h4>Tommy_Sneakers</h4>
                     <span class="rank admin">Helper</span>
                 </div>
-                  <div class="staff-box">
+                <div class="staff-box">
                     <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1286048248158752840/f60547428d9da7ccf18063019b503ebd.webp?size=1024" alt="Admin"></div>
                     <h4>Hector_Garcia</h4>
                     <span class="rank admin">Helper</span>
