@@ -4,20 +4,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova Roleplay | SAMP Community</title>
-    <link rel="stylesheet" href="style.css">
+    
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- TUS VARIABLES Y ESTILOS UNIFICADOS --- */
+        :root {
+            --purple-main: #a855f7;
+            --purple-dark: #1e1b4b;
+            --bg-color: #020617;
+            --text-white: #f8fafc;
+            --glow: 0 0 15px rgba(168, 85, 247, 0.6);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
+            color: var(--text-white);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 10%;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid var(--purple-main);
+            box-shadow: var(--glow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--purple-main);
+            text-shadow: var(--glow);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        nav ul { list-style: none; display: flex; gap: 25px; margin: 0; }
+        nav a { text-decoration: none; color: white; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; transition: 0.3s; }
+        nav a:hover { color: var(--purple-main); text-shadow: var(--glow); }
+
+        .btn-discord { background: #5865F2; padding: 8px 15px; border-radius: 5px; }
+
+        main { padding: 40px 10%; }
+
+        /* --- LÓGICA DE PESTAÑAS --- */
+        .content-section { display: none; animation: fadeIn 0.5s ease; }
+        .content-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- DISEÑO DE TARJETAS --- */
+        .hero { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-bottom: 50px; }
+        .status-card, .quick-start, .staff-box, .card {
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid var(--purple-main);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--glow);
+            backdrop-filter: blur(8px);
+        }
+
+        .status-card { flex: 1; min-width: 300px; text-align: center; }
+        .quick-start { flex: 1; min-width: 300px; }
+
+        .ip-address {
+            display: block;
+            background: #000;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px dashed var(--purple-main);
+            color: var(--purple-main);
+            font-family: monospace;
+            margin-top: 15px;
+        }
+
+        .online-dot { height: 15px; width: 15px; background-color: #6b7280; border-radius: 50%; display: inline-block; margin-right: 10px; }
+
+        /* --- STAFF --- */
+        .staff-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+        .staff-box { width: 250px; text-align: center; transition: 0.3s; }
+        .staff-box:hover { transform: scale(1.05); border-color: white; }
+        .avatar-container img { width: 120px; height: 120px; border-radius: 15px; border: 3px solid var(--purple-main); margin-bottom: 15px; }
+        
+        .rank { display: block; padding: 8px; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.7rem; margin-top: 10px; }
+        .owner { background: #ef4444; }
+        .admin { background: #a855f7; }
+        .helper { background: #22c55e; }
+
+        .section-title { font-family: 'Orbitron'; text-align: center; color: var(--purple-main); margin: 40px 0; }
+        footer { text-align: center; padding: 40px; opacity: 0.6; border-top: 1px solid #1e1b4b; }
+    </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">
-            <h1>NOVA <span>ROLEPLAY</span></h1>
-        </div>
+        <div class="logo"><h1>NOVA <span>ROLEPLAY</span></h1></div>
         <nav>
             <ul>
                 <li><a href="#" onclick="mostrarSeccion('inicio')">Inicio</a></li>
                 <li><a href="#" onclick="mostrarSeccion('staff')">Staff</a></li>
-                <li><a href="https://discord.gg/TU_INVITACION" class="btn-discord" target="_blank">Discord</a></li>
+                <li><a href="https://discord.gg/TU_LINK" class="btn-discord" target="_blank">Discord</a></li>
             </ul>
         </nav>
     </header>
@@ -27,7 +121,7 @@
             <section class="hero">
                 <div class="status-card">
                     <h3>ESTADO DEL SERVIDOR</h3>
-                    <div class="player-count">
+                    <div style="display: flex; align-items: center; justify-content: center;">
                         <span id="status-dot" class="online-dot"></span>
                         <p id="player-info">Consultando servidor...</p>
                     </div>
@@ -38,22 +132,9 @@
                     <h3>¿CÓMO EMPEZAR?</h3>
                     <ol>
                         <li>Al entrar pones <strong>/referido Rewfun</strong></li>
-                        <li>Luego vas a una tienda y compras tlf y gps</li>
-                        <li>Luego pones <strong>/gps</strong> y te diriges al trabajo</li>
-                        <li>Y ya luego solo queda que marques tu destino y te diviertas</li>
+                        <li>Luego compras tlf y gps</li>
+                        <li>Pones <strong>/gps</strong> y vas al trabajo</li>
                     </ol>
-                </div>
-            </section>
-
-            <h2 class="section-title">NOVEDADES</h2>
-            <section class="news">
-                <div class="card">
-                    <h4>Actualización v1</h4>
-                    <p>Parche en algunos bug de hosting del server.</p>
-                </div>
-                <div class="card">
-                    <h4>¿Quieres Ayudar?</h4>
-                    <p>¿Quieres ayudar a la comunidad? Para dar sugerencias ve al discord.</p>
                 </div>
             </section>
         </div>
@@ -61,45 +142,27 @@
         <div id="seccion-staff" class="content-section">
             <h2 class="section-title">EQUIPO ADMINISTRATIVO</h2>
             <section class="staff-grid">
-                
                 <div class="staff-box">
-                    <div class="avatar-container">
-                        <img src="https://via.placeholder.com/150" alt="Avatar">
-                    </div>
-                    <div class="staff-info">
-                        <h4>Nombre_Owner</h4>
-                        <span class="rank owner">OWNER</span>
-                    </div>
+                    <div class="avatar-container"><img src="https://via.placeholder.com/150" alt="Owner"></div>
+                    <h4>Nombre_Owner</h4>
+                    <span class="rank owner">OWNER</span>
                 </div>
-
                 <div class="staff-box">
-                    <div class="avatar-container">
-                        <img src="https://via.placeholder.com/150" alt="Avatar">
-                    </div>
-                    <div class="staff-info">
-                        <h4>Nombre_Admin</h4>
-                        <span class="rank admin">ADMINISTRADOR</span>
-                    </div>
+                    <div class="avatar-container"><img src="https://via.placeholder.com/150" alt="Admin"></div>
+                    <h4>Nombre_Admin</h4>
+                    <span class="rank admin">ADMINISTRADOR</span>
                 </div>
-
-                <div class="staff-box">
-                    <div class="avatar-container">
-                        <img src="https://via.placeholder.com/150" alt="Avatar">
-                    </div>
-                    <div class="staff-info">
-                        <h4>Nombre_Helper</h4>
-                        <span class="rank helper">HELPER</span>
-                    </div>
-                </div>
-
             </section>
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2026 Nova Roleplay - Desarrollado para la comunidad de NOVARP</p>
-    </footer>
+    <footer><p>&copy; 2026 Nova Roleplay</p></footer>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <script>
+        function mostrarSeccion(id) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById('seccion-' + id).classList.add('active');
+        }
+
+        const IP = "135.148.164.122"; 
+        const PORT = "30498";
