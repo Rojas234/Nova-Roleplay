@@ -3,9 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nova Roleplay | SAMP</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Nova Roleplay | SAMP Community</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES Y ESTILOS BASE --- */
+        :root {
+            --purple-main: #a855f7;
+            --purple-dark: #1e1b4b;
+            --bg-color: #020617;
+            --text-white: #f8fafc;
+            --glow: 0 0 15px rgba(168, 85, 247, 0.6);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
+            color: var(--text-white);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* --- CABECERA --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 10%;
+            background: rgba(0, 0, 0, 0.7);
+            border-bottom: 2px solid var(--purple-main);
+            box-shadow: var(--glow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--purple-main);
+            text-shadow: var(--glow);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .logo span {
+            color: #fff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            color: var(--purple-main);
+            text-shadow: var(--glow);
+        }
+
+        .btn-discord {
+            background: #5865F2;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        /* --- SECCIÓN PRINCIPAL --- */
+        main {
+            padding: 40px 10%;
+        }
+
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .status-card, .quick-start, .card {
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid var(--purple-main);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--glow);
+            backdrop-filter: blur(8px);
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .status-card h3 {
+            margin-top: 0;
+            color: var(--purple-main);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .player-count {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        .online-dot {
+            height: 15px;
+            width: 15px;
+            background-color: #6b7280; /* Gris inicial */
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 15px;
+            transition: 0.5s;
+        }
+
+        .ip-address {
+            display: block;
+            background: #000;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px dashed var(--purple-main);
+            font-family: monospace;
+            color: var(--purple-main);
+            font-size: 1.1rem;
+        }
+
+        /* --- NOTICIAS --- */
+        .news {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card h4 {
+            color: var(--purple-main);
+            margin-top: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            margin-top: 50px;
+            border-top: 1px solid #1e1b4b;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+    </style>
 </head>
 <body>
 
@@ -29,37 +184,78 @@
             <div class="status-card">
                 <h3>ESTADO DEL SERVIDOR</h3>
                 <div class="player-count">
-                    <span class="online-dot"></span>
-                    <p>Jugadores: 157 / 500</p>
+                    <span id="status-dot" class="online-dot"></span>
+                    <p id="player-info">Consultando servidor...</p>
                 </div>
                 <code class="ip-address">play.novarp.net</code>
             </div>
 
             <div class="quick-start">
-                <h2>¿Cómo empezar?</h2>
-                <ol>
-                    <li>Descarga e instala GTA SA y SAMP.</li>
-                    <li>Regístrate en nuestro PCU.</li>
-                    <li>Conéctate a nuestra IP y ¡disfruta!</li>
+                <h3>¿CÓMO EMPEZAR?</h3>
+                <ol style="line-height: 1.8;">
+                    <li>Descarga el cliente de SAMP 0.3.7.</li>
+                    <li>Agrega nuestra IP a favoritos.</li>
+                    <li>Crea tu cuenta dentro del servidor.</li>
+                    <li>¡Sigue las reglas y diviértete!</li>
                 </ol>
             </div>
         </section>
 
+        <h2 style="font-family: 'Orbitron'; text-align: center; margin-bottom: 30px;">NOVEDADES</h2>
+        
         <section class="news">
             <div class="card">
                 <h4>Actualización v2.3</h4>
-                <p>Nuevos sistemas de economía y vehículos importados.</p>
+                <p>Nuevos sistemas de economía, mapeos en Los Santos y concesionarios de lujo habilitados.</p>
             </div>
             <div class="card">
-                <h4>Evento de Facciones</h4>
-                <p>Esta semana guerra por territorios en Los Santos.</p>
+                <h4>Oposiciones Staff</h4>
+                <p>¿Quieres ayudar a la comunidad? Las postulaciones para ayudantes están abiertas en Discord.</p>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Nova Roleplay - Todos los derechos reservados.</p>
+        <p>&copy; 2026 Nova Roleplay - Desarrollado para la comunidad de SAMP.</p>
     </footer>
+
+    <script>
+        // --- CONFIGURACIÓN DEL SERVIDOR ---
+        // Cambia estas dos variables por la IP y Puerto REAL de tu server
+        const IP_SERVIDOR = "51.222.147.112"; 
+        const PUERTO_SERVIDOR = "7777";
+
+        async function obtenerEstado() {
+            const infoTexto = document.getElementById('player-info');
+            const puntoEstado = document.getElementById('status-dot');
+
+            try {
+                // Usamos la API de open.mp que es la más fiable para SAMP actualmente
+                const respuesta = await fetch(`https://api.open.mp/server/${IP_SERVIDOR}:${PUERTO_SERVIDOR}`);
+                
+                if (!respuesta.ok) throw new Error();
+                
+                const datos = await respuesta.json();
+
+                // Si la API devuelve datos válidos
+                infoTexto.innerText = `Jugadores: ${datos.Players} / ${datos.MaxPlayers}`;
+                puntoEstado.style.backgroundColor = "#22c55e"; // Verde
+                puntoEstado.style.boxShadow = "0 0 15px #22c55e";
+                
+            } catch (error) {
+                // Si el servidor está apagado o hay error de conexión
+                infoTexto.innerText = "Servidor Offline / Error";
+                puntoEstado.style.backgroundColor = "#ef4444"; // Rojo
+                puntoEstado.style.boxShadow = "0 0 15px #ef4444";
+            }
+        }
+
+        // Ejecutar al cargar la página
+        obtenerEstado();
+
+        // Actualizar automáticamente cada 30 segundos
+        setInterval(obtenerEstado, 30000);
+    </script>
 
 </body>
 </html>
