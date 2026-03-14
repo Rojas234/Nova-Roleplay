@@ -1,3 +1,25 @@
+/**
+ * LÓGICA DE NAVEGACIÓN (Cambio entre Inicio y Staff)
+ */
+function mostrarSeccion(id) {
+    // 1. Buscamos todas las secciones con la clase 'content-section'
+    const secciones = document.querySelectorAll('.content-section');
+    
+    // 2. Quitamos la clase 'active' de todas para ocultarlas
+    secciones.forEach(s => s.classList.remove('active'));
+
+    // 3. Mostramos la sección que el usuario seleccionó
+    const seleccionada = document.getElementById('seccion-' + id);
+    if (seleccionada) {
+        seleccionada.classList.add('active');
+        // Esto hace que la página suba al inicio suavemente al cambiar
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+/**
+ * LÓGICA DE ESTADO DEL SERVIDOR (IP: 135.148.164.122)
+ */
 const IP_SERVIDOR = "135.148.164.122"; 
 const PUERTO_SERVIDOR = "30498";
 
@@ -22,6 +44,7 @@ async function obtenerEstado() {
         try {
             const res2 = await fetch(`https://api.open.mp/server/${IP_SERVIDOR}:${PUERTO_SERVIDOR}`);
             const datos2 = await res2.json();
+            
             if (datos2 && datos2.Players !== undefined) {
                 infoTexto.innerText = `Jugadores: ${datos2.Players} / ${datos2.MaxPlayers}`;
                 puntoEstado.style.backgroundColor = "#22c55e";
@@ -30,6 +53,7 @@ async function obtenerEstado() {
                 throw new Error();
             }
         } catch (e) {
+            // Si ambas fallan, el servidor está realmente caído o el Query está desactivado
             infoTexto.innerText = "Servidor Offline";
             puntoEstado.style.backgroundColor = "#ef4444";
             puntoEstado.style.boxShadow = "0 0 15px #ef4444";
@@ -37,5 +61,8 @@ async function obtenerEstado() {
     }
 }
 
+// Ejecutar la primera vez al cargar la página
 obtenerEstado();
+
+// Actualizar automáticamente cada 30 segundos
 setInterval(obtenerEstado, 30000);
