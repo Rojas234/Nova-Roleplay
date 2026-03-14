@@ -15,68 +15,85 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#guias">Guías</a></li>
-                <li><a href="#staff">Staff</a></li>
-                <li><a href="https://discord.gg/VESfGc3Q" class="btn-discord" target="_blank">Discord</a></li>
+                <li><a href="#" onclick="mostrarSeccion('inicio')">Inicio</a></li>
+                <li><a href="#" onclick="mostrarSeccion('staff')">Staff</a></li>
+                <li><a href="https://discord.gg/TU_LINK_AQUI" class="btn-discord" target="_blank">Discord</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section id="inicio" class="hero">
-            <div class="status-card">
-                <h3>ESTADO DEL SERVIDOR</h3>
-                <div class="player-count">
-                    <span id="status-dot" class="online-dot"></span>
-                    <p id="player-info">Consultando servidor...</p>
+        <div id="seccion-inicio" class="content-section active">
+            <section class="hero">
+                <div class="status-card">
+                    <h3>ESTADO DEL SERVIDOR</h3>
+                    <div class="player-count">
+                        <span id="status-dot" class="online-dot"></span>
+                        <p id="player-info">Consultando servidor...</p>
+                    </div>
+                    <code class="ip-address">135.148.164.122:30498</code>
                 </div>
-                <code class="ip-address">135.148.164.122:30498</code>
-            </div>
 
-            <div class="quick-start" id="guias">
-                <h3>¿CÓMO EMPEZAR?</h3>
-                <ol>
-                    <li>Al entrar pones <strong>/referido Rewfun</strong></li>
-                    <li>Luego vas a una tienda y compras tlf y gps</li>
-                    <li>Luego pones <strong>/gps</strong> y te diriges al trabajo</li>
-                    <li>Y ya luego solo queda que marques tu destino y te diviertas</li>
-                </ol>
-            </div>
-        </section>
+                <div class="quick-start">
+                    <h3>¿CÓMO EMPEZAR?</h3>
+                    <ol>
+                        <li>Al entrar pones <strong>/referido Rewfun</strong></li>
+                        <li>Luego vas a una tienda y compras tlf y gps</li>
+                        <li>Luego pones <strong>/gps</strong> y te diriges al trabajo</li>
+                        <li>Y ya luego solo queda que marques tu destino y te diviertas</li>
+                    </ol>
+                </div>
+            </section>
 
-        <h2 class="section-title" id="staff">EQUIPO ADMINISTRATIVO</h2>
-        <section class="staff-container">
-            <div class="staff-card">
-                <img src="https://cdn.discordapp.com/avatars/1053506023811453030/c7b286e35efd50d35cf6f4f9d85d4468.webp?size=1024" alt="Avatar Owner">
-                <h4>Mr Rewfun</h4>
-                <span class="rank owner">OWNER</span>
-            </div>
+            <h2 class="section-title">NOVEDADES</h2>
+            <section class="news">
+                <div class="card">
+                    <h4>Actualización v1</h4>
+                    <p>Parche en algunos bug de hosting del server.</p>
+                </div>
+                <div class="card">
+                    <h4>¿Quieres Ayudar?</h4>
+                    <p>¿Quieres ayudar a la comunidad? Para dar sugerencias ve al discord.</p>
+                </div>
+            </section>
+        </div>
 
-            <div class="staff-card">
-                <img src="https://via.placeholder.com/100" alt="Avatar Admin">
-                <h4>Nombre_Admin</h4>
-                <span class="rank admin">ADMIN</span>
-            </div>
+        <div id="seccion-staff" class="content-section">
+            <h2 class="section-title">EQUIPO ADMINISTRATIVO</h2>
+            <section class="staff-grid">
+                
+                <div class="staff-box">
+                    <div class="avatar-container">
+                        <img src="https://cdn.discordapp.com/avatars/1053506023811453030/c7b286e35efd50d35cf6f4f9d85d4468.webp?size=1024" alt="Avatar">
+                    </div>
+                    <div class="staff-info">
+                        <h4>Mr Rewfun</h4>
+                        <span class="rank owner">OWNER</span>
+                    </div>
+                </div>
 
-            <div class="staff-card">
-                <img src="https://via.placeholder.com/100" alt="Avatar Helper">
-                <h4>Nombre_Helper</h4>
-                <span class="rank helper">HELPER</span>
-            </div>
-        </section>
+                <div class="staff-box">
+                    <div class="avatar-container">
+                        <img src="https://via.placeholder.com/150" alt="Avatar">
+                    </div>
+                    <div class="staff-info">
+                        <h4>Nombre_Admin</h4>
+                        <span class="rank admin">ADMINISTRADOR</span>
+                    </div>
+                </div>
 
-        <h2 class="section-title">NOVEDADES</h2>
-        <section class="news">
-            <div class="card">
-                <h4>Actualización v1</h4>
-                <p>Parche en algunos bug de hosting del server.</p>
-            </div>
-            <div class="card">
-                <h4>¿Quieres Ayudar?</h4>
-                <p>¿Quieres ayudar a la comunidad? Para dar sugerencias ve al discord.</p>
-            </div>
-        </section>
+                <div class="staff-box">
+                    <div class="avatar-container">
+                        <img src="https://via.placeholder.com/150" alt="Avatar">
+                    </div>
+                    <div class="staff-info">
+                        <h4>Nombre_Helper</h4>
+                        <span class="rank helper">HELPER</span>
+                    </div>
+                </div>
+
+            </section>
+        </div>
     </main>
 
     <footer>
