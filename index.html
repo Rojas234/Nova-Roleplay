@@ -21,7 +21,7 @@
                 <li><a href="#">Guías</a></li>
                 <li><a href="#">Staff</a></li>
                 <li><a href="#">Tienda</a></li>
-                <li><a href="#" class="btn-discord">Discord</a></li>
+                <li><a href="https://discord.gg/TU_INVITACION" class="btn-discord" target="_blank">Discord</a></li>
             </ul>
         </nav>
     </header>
@@ -40,10 +40,10 @@
             <div class="quick-start">
                 <h3>¿CÓMO EMPEZAR?</h3>
                 <ol>
-                    <li>al entrar pones /referido y pones Rewfun</li>
-                    <li>luego vas a una tienda y comprar tlf y gps</li>
-                    <li>luego pones /gps y te diriges al trabajo</li>
-                    <li>y ya luego solo queda que marques tu destino y te diviertas</li>
+                    <li>Al entrar pones <strong>/referido Rewfun</strong></li>
+                    <li>Luego vas a una tienda y compras tlf y gps</li>
+                    <li>Luego pones <strong>/gps</strong> y te diriges al trabajo</li>
+                    <li>Y ya luego solo queda que marques tu destino y te diviertas</li>
                 </ol>
             </div>
         </section>
@@ -53,7 +53,7 @@
         <section class="news">
             <div class="card">
                 <h4>Actualización v1</h4>
-                <p>parche en algunos bug de hosting del server</p>
+                <p>Parche en algunos bug de hosting del server.</p>
             </div>
             <div class="card">
                 <h4>¿Quieres Ayudar?</h4>
@@ -66,29 +66,6 @@
         <p>&copy; 2026 Nova Roleplay - Desarrollado para la comunidad de NOVARP</p>
     </footer>
 
-    <script>
-        const IP_SERVIDOR = "135.148.164.122"; 
-        const PUERTO_SERVIDOR = "30498";
-
-        async function obtenerEstado() {
-            const infoTexto = document.getElementById('player-info');
-            const puntoEstado = document.getElementById('status-dot');
-            try {
-                const respuesta = await fetch(`https://api.open.mp/server/${IP_SERVIDOR}:${PUERTO_SERVIDOR}`);
-                if (!respuesta.ok) throw new Error();
-                const datos = await respuesta.json();
-                infoTexto.innerText = `Jugadores: ${datos.Players} / ${datos.MaxPlayers}`;
-                puntoEstado.style.backgroundColor = "#22c55e";
-                puntoEstado.style.boxShadow = "0 0 15px #22c55e";
-            } catch (error) {
-                infoTexto.innerText = "Servidor Offline";
-                puntoEstado.style.backgroundColor = "#ef4444";
-                puntoEstado.style.boxShadow = "0 0 15px #ef4444";
-            }
-        }
-        obtenerEstado();
-        setInterval(obtenerEstado, 30000);
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
