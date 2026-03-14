@@ -1,6 +1,6 @@
 // Configuración de tu servidor
-const SERVER_IP = "135.148.164.122"; // Cambia esto por tu IP numérica o dominio
-const SERVER_PORT = "30498";        // Cambia esto por tu puerto
+const SERVER_IP = "sv.medallorp.com"; // Cambia esto por tu IP numérica o dominio
+const SERVER_PORT = "7777";        // Cambia esto por tu puerto
 
 async function updateServerStatus() {
     const playerInfo = document.getElementById('player-info');
