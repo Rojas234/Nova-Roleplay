@@ -10,7 +10,9 @@
     <style>
         :root {
             --purple-main: #a855f7;
+            --purple-dark: #1e1b4b;
             --bg-color: #020617;
+            --text-white: #f8fafc;
             --glow: 0 0 15px rgba(168, 85, 247, 0.6);
         }
 
@@ -21,6 +23,7 @@
             color: white;
             font-family: 'Roboto', sans-serif;
             min-height: 100vh;
+            scroll-behavior: smooth;
         }
 
         header {
@@ -36,11 +39,10 @@
             z-index: 999;
         }
 
-        .logo h1 { font-family: 'Orbitron'; color: var(--purple-main); text-shadow: var(--glow); margin: 0; }
+        .logo h1 { font-family: 'Orbitron'; color: var(--purple-main); text-shadow: var(--glow); margin: 0; font-size: 1.5rem; }
 
         nav ul { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; }
         
-        /* ESTILO DE LOS BOTONES DEL MENÚ */
         .nav-link { 
             color: white; 
             font-weight: bold; 
@@ -55,43 +57,80 @@
         
         .nav-link:hover { color: var(--purple-main); text-shadow: var(--glow); }
 
-        .btn-discord { background: #5865F2; padding: 8px 15px; border-radius: 5px; text-decoration: none; color: white; }
+        .btn-discord { background: #5865F2; padding: 8px 15px; border-radius: 5px; text-decoration: none; color: white; font-weight: bold; }
 
         main { padding: 40px 10%; }
 
-        /* --- CONTROL DE SECCIONES (AQUÍ ESTABA EL FALLO) --- */
-        .content-section { 
-            display: none !important; /* Oculto por defecto */
-        }
-
-        .content-section.active { 
-            display: block !important; /* Visible solo si tiene la clase active */
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
+        /* --- CONTROL DE PESTAÑAS --- */
+        .content-section { display: none !important; }
+        .content-section.active { display: block !important; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- DISEÑO STAFF --- */
-        .staff-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px; }
-        .staff-box { 
-            background: rgba(30, 27, 75, 0.6); 
-            border: 2px solid var(--purple-main); 
-            border-radius: 15px; 
-            padding: 30px; 
-            width: 250px; 
-            text-align: center; 
-            box-shadow: var(--glow);
+        /* --- GRID DE CONTENIDO --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
         }
-        .avatar-container img { width: 120px; height: 120px; border-radius: 15px; border: 2px solid var(--purple-main); margin-bottom: 15px; }
-        .rank { display: block; padding: 8px; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.75rem; margin-top: 10px; font-weight: bold; }
+
+        .card {
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid var(--purple-main);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--glow);
+            backdrop-filter: blur(8px);
+        }
+
+        .card h3 { 
+            margin-top: 0; 
+            color: var(--purple-main); 
+            font-family: 'Orbitron'; 
+            font-size: 1.2rem;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+            padding-bottom: 10px;
+        }
+
+        /* --- ESTADO DEL SERVIDOR --- */
+        .status-box { text-align: center; }
+        .ip-address { 
+            display: block; 
+            background: #000; 
+            padding: 12px; 
+            border-radius: 8px; 
+            border: 1px dashed var(--purple-main); 
+            color: var(--purple-main); 
+            margin-top: 15px; 
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+        .online-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-right: 10px; background-color: #6b7280; }
+
+        /* --- LISTA DE PASOS --- */
+        ol { padding-left: 20px; }
+        ol li { margin-bottom: 12px; line-height: 1.4; }
+        ol li strong { color: var(--purple-main); }
+
+        /* --- STAFF --- */
+        .staff-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+        .staff-box { 
+            background: rgba(15, 12, 41, 0.8); 
+            border: 2px solid var(--purple-main); 
+            border-radius: 20px; 
+            padding: 25px; 
+            width: 220px; 
+            text-align: center;
+            transition: 0.3s;
+        }
+        .staff-box:hover { transform: translateY(-10px); box-shadow: 0 0 25px var(--purple-main); }
+        .avatar-container img { width: 100px; height: 100px; border-radius: 15px; border: 2px solid var(--purple-main); margin-bottom: 15px; object-fit: cover; }
+        .rank { display: block; padding: 6px; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.7rem; font-weight: bold; margin-top: 10px; color: white; }
         .owner { background: #ef4444; }
         .admin { background: #a855f7; }
 
-        /* --- OTROS ESTILOS --- */
-        .status-card { background: rgba(30, 27, 75, 0.4); border: 1px solid var(--purple-main); border-radius: 15px; padding: 30px; text-align: center; box-shadow: var(--glow); }
-        .ip-address { display: block; background: #000; padding: 12px; border-radius: 8px; border: 1px dashed var(--purple-main); color: var(--purple-main); margin-top: 15px; font-family: monospace; }
-        .online-dot { height: 15px; width: 15px; background-color: #6b7280; border-radius: 50%; display: inline-block; margin-right: 10px; }
-        .section-title { font-family: 'Orbitron'; text-align: center; color: var(--purple-main); margin: 40px 0; }
+        .section-title { font-family: 'Orbitron'; text-align: center; color: var(--purple-main); margin: 40px 0; text-transform: uppercase; letter-spacing: 2px; }
+        footer { text-align: center; padding: 30px; opacity: 0.6; font-size: 0.8rem; border-top: 1px solid rgba(168, 85, 247, 0.2); }
     </style>
 </head>
 <body>
@@ -102,62 +141,80 @@
             <ul>
                 <li><button class="nav-link" onclick="mostrarSeccion('inicio')">Inicio</button></li>
                 <li><button class="nav-link" onclick="mostrarSeccion('staff')">Staff</button></li>
-                <li><a href="TU_LINK_DISCORD" class="btn-discord" target="_blank">Discord</a></li>
+                <li><a href="https://discord.gg/TU_LINK" class="btn-discord" target="_blank">Discord</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <div id="seccion-inicio" class="content-section active">
-            <div class="status-card">
-                <h3>ESTADO DEL SERVIDOR</h3>
-                <div style="display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
-                    <span id="status-dot" class="online-dot"></span>
-                    <p id="player-info">Consultando...</p>
-                </div>
-                <code class="ip-address">135.148.164.122:30498</code>
-            </div>
             
-            <h2 class="section-title">BIENVENIDO A NOVA ROLEPLAY</h2>
-            <p style="text-align: center;">Usa el menú de arriba para ver a nuestro equipo administrativo.</p>
+            <div class="grid-container">
+                <div class="card status-box">
+                    <h3>SERVIDOR</h3>
+                    <div style="display: flex; align-items: center; justify-content: center; margin: 15px 0;">
+                        <span id="status-dot" class="online-dot"></span>
+                        <p id="player-info" style="margin:0">Consultando...</p>
+                    </div>
+                    <code class="ip-address">135.148.164.122:30498</code>
+                </div>
+
+                <div class="card">
+                    <h3>¿CÓMO EMPEZAR?</h3>
+                    <ol>
+                        <li>Al entrar pones <strong>/referido Rewfun</strong></li>
+                        <li>Ve a una tienda y compra teléfono y GPS.</li>
+                        <li>Usa <strong>/gps</strong> para ir a tu primer trabajo.</li>
+                        <li>¡Sigue las reglas y disfruta el rol!</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h2 class="section-title">Novedades</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <h3>Actualización v1</h3>
+                    <p>Se han corregido errores en el sistema de hosting y optimizado la conexión para jugadores de Latinoamérica.</p>
+                </div>
+                <div class="card">
+                    <h3>Sistema de Sugerencias</h3>
+                    <p>¡Queremos escucharte! Si tienes una idea para el servidor, recuerda que tenemos un canal exclusivo en nuestro Discord.</p>
+                </div>
+            </div>
         </div>
 
         <div id="seccion-staff" class="content-section">
-            <h2 class="section-title">EQUIPO ADMINISTRATIVO</h2>
+            <h2 class="section-title">Equipo Administrativo</h2>
             <div class="staff-grid">
                 <div class="staff-box">
                     <div class="avatar-container"><img src="https://via.placeholder.com/150" alt="Owner"></div>
-                    <h4>Nombre_Owner</h4>
+                    <h4>Rojas</h4>
                     <span class="rank owner">OWNER</span>
                 </div>
                 <div class="staff-box">
                     <div class="avatar-container"><img src="https://via.placeholder.com/150" alt="Admin"></div>
-                    <h4>Nombre_Admin</h4>
-                    <span class="rank admin">ADMINISTRADOR</span>
+                    <h4>Administrador</h4>
+                    <span class="rank admin">ADMIN</span>
                 </div>
             </div>
         </div>
     </main>
 
-    <script>
-        // Función ultra-simplificada
-        function mostrarSeccion(idDeseada) {
-            console.log("Cambiando a: " + idDeseada); // Esto saldrá en la consola (F12) para probar
+    <footer>
+        <p>&copy; 2026 Nova Roleplay - Cali, Colombia</p>
+    </footer>
 
-            // 1. Ocultar TODAS las secciones
+    <script>
+        function mostrarSeccion(id) {
             const secciones = document.getElementsByClassName('content-section');
             for (let i = 0; i < secciones.length; i++) {
                 secciones[i].classList.remove('active');
             }
-
-            // 2. Mostrar la que queremos
-            const seccionMostrar = document.getElementById('seccion-' + idDeseada);
-            if (seccionMostrar) {
-                seccionMostrar.classList.add('active');
-            }
+            const mostrar = document.getElementById('seccion-' + id);
+            if (mostrar) mostrar.classList.add('active');
+            window.scrollTo(0, 0);
         }
 
-        // Lógica del servidor (Tu IP de Lemehost)
         async function actualizar() {
             const info = document.getElementById('player-info');
             const dot = document.getElementById('status-dot');
@@ -167,11 +224,12 @@
                 if (data.core.online) {
                     info.innerText = `Jugadores: ${data.core.players} / ${data.core.maxplayers}`;
                     dot.style.backgroundColor = "#22c55e";
-                    dot.style.boxShadow = "0 0 15px #22c55e";
+                    dot.style.boxShadow = "0 0 10px #22c55e";
                 }
             } catch (e) {
                 info.innerText = "Servidor Offline";
                 dot.style.backgroundColor = "#ef4444";
+                dot.style.boxShadow = "none";
             }
         }
         actualizar();
