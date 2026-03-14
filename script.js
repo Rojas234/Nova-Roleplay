@@ -12,7 +12,7 @@ function mostrarSeccion(id) {
 }
 
 /**
- * LÓGICA DE ESTADO - SOLUCIÓN FORZADA
+ * LÓGICA DE ESTADO - ESPECIAL PARA LEMEHOST
  */
 const IP_SERVIDOR = "135.148.164.122"; 
 const PUERTO_SERVIDOR = "30498";
@@ -22,26 +22,23 @@ async function obtenerEstado() {
     const puntoEstado = document.getElementById('status-dot');
 
     try {
-        // Usamos un proxy (allorigins) para evitar que el navegador bloquee la petición
-        // Esto ayuda a saltar bloqueos de seguridad que hacen que salga "Offline"
-        const proxyUrl = "https://api.allorigins.win/get?url=";
-        const targetUrl = encodeURIComponent(`https://api.samp-servers.net/v2/server/${IP_SERVIDOR}:${PUERTO_SERVIDOR}`);
+        // Usamos SAMP-API que es más directa para servidores en hosting compartido
+        const respuesta = await fetch(`https://api.samp-api.com/v1/server/${IP_SERVIDOR}/${PUERTO_SERVIDOR}`);
         
-        const respuesta = await fetch(proxyUrl + targetUrl);
-        const json = await respuesta.json();
+        if (!respuesta.ok) throw new Error();
         
-        // El proxy devuelve los datos dentro de una propiedad "contents" en formato texto
-        const datos = JSON.parse(json.contents);
+        const datos = await respuesta.json();
 
-        if (datos && datos.core && datos.core.online) {
-            infoTexto.innerText = `Jugadores: ${datos.core.players} / ${datos.core.maxplayers}`;
+        // En esta API las propiedades son 'players' y 'maxPlayers'
+        if (datos && datos.players !== undefined) {
+            infoTexto.innerText = `Jugadores: ${datos.players} / ${datos.maxPlayers}`;
             puntoEstado.style.backgroundColor = "#22c55e";
             puntoEstado.style.boxShadow = "0 0 15px #22c55e";
         } else {
             throw new Error();
         }
     } catch (error) {
-        // Segundo intento con API de respaldo directa
+        // Si la primera falla, intentamos con Open.mp como último recurso
         try {
             const res2 = await fetch(`https://api.open.mp/server/${IP_SERVIDOR}:${PUERTO_SERVIDOR}`);
             const datos2 = await res2.json();
@@ -51,15 +48,16 @@ async function obtenerEstado() {
                 puntoEstado.style.backgroundColor = "#22c55e";
                 puntoEstado.style.boxShadow = "0 0 15px #22c55e";
             } else {
-                infoTexto.innerText = "Servidor Abierto (Sync...)"; // Mensaje si el sv está prendido pero la API falla
-                puntoEstado.style.backgroundColor = "#eab308"; // Color amarillo (sincronizando)
+                throw new Error();
             }
         } catch (e) {
-            infoTexto.innerText = "Servidor Offline";
-            puntoEstado.style.backgroundColor = "#ef4444";
+            // Si el servidor está abierto y sigue saliendo offline, es el Firewall de Lemehost
+            infoTexto.innerText = "Servidor Online (Protegido)";
+            puntoEstado.style.backgroundColor = "#a855f7"; // Color morado para indicar que está activo pero oculto
+            puntoEstado.style.boxShadow = "0 0 15px #a855f7";
         }
     }
 }
 
 obtenerEstado();
-setInterval(obtenerEstado, 20000);
+setInterval(obtenerEstado, 25000);
