@@ -72,6 +72,16 @@
     margin-top: 10px;
 }
 
+    .online-dot {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    background-color: #6b7280; /* Gris por defecto */
+    transition: all 0.5s ease;
+}
+
 /* Colores de Rangos */
 .owner { background: linear-gradient(45deg, #ff0000, #990000); box-shadow: 0 0 10px #ff0000; }
 .admin { background: linear-gradient(45deg, #a855f7, #6b21a8); box-shadow: 0 0 10px #a855f7; }
