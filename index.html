@@ -219,7 +219,6 @@
     </footer>
 
 <script>
-    // Navegación fluida entre pestañas
     function mostrarSeccion(id) {
         const secciones = document.querySelectorAll('.content-section');
         secciones.forEach(s => s.classList.remove('active'));
@@ -228,46 +227,50 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- LÓGICA DE ESTADO (MÉTODO ULTRA-LIMPIO) ---
     async function actualizarEstado() {
         const info = document.getElementById('player-info');
         const dot = document.getElementById('status-dot');
-        
         if (!info || !dot) return;
 
-        // Tu IP y Puerto reales
-        const ip = "142.132.203.47";
-        const puerto = "30858";
+        const IP = "142.132.203.47";
+        const PORT = "30858";
 
+        // Intentamos primero con la API de SAMP-API (más flexible con servers nuevos)
         try {
-            // Usamos la API de Open.mp que es la más moderna y estable actualmente
-            // No requiere proxy, se conecta directo
-            const res = await fetch(`https://api.open.mp/server/${ip}:${puerto}`);
+            const response = await fetch(`https://api.samp-api.com/v1/server/${IP}/${PORT}`);
+            if (!response.ok) throw new Error();
+            const data = await response.json();
             
-            if (!res.ok) throw new Error("Server no responde");
-
-            const data = await res.json();
-
-            // La API de Open.mp devuelve 'Players' y 'MaxPlayers' con mayúsculas
-            if (data && data.Players !== undefined) {
-                info.innerText = `Online: ${data.Players} / ${data.MaxPlayers}`;
-                info.style.color = "#22c55e"; // Verde
-                dot.style.backgroundColor = "#22c55e";
-                dot.style.boxShadow = "0 0 15px #22c55e";
-            }
+            aplicarDatos(data.players, data.maxPlayers);
         } catch (e) {
-            // Si hay error (como el 400 anterior o server offline)
-            info.innerText = "Servidor Offline";
-            info.style.color = "#ef4444"; // Rojo
-            dot.style.backgroundColor = "#ef4444";
-            dot.style.boxShadow = "none";
+            // Si la primera falla, intentamos con Open.mp como respaldo
+            try {
+                const res2 = await fetch(`https://api.open.mp/server/${IP}:${PORT}`);
+                const data2 = await res2.json();
+                if (data2 && data2.Players !== undefined) {
+                    aplicarDatos(data2.Players, data2.MaxPlayers);
+                } else {
+                    throw new Error();
+                }
+            } catch (err) {
+                // Si ambas fallan, mostrar Offline
+                info.innerText = "Servidor Offline";
+                info.style.color = "#ef4444";
+                dot.style.backgroundColor = "#ef4444";
+                dot.style.boxShadow = "none";
+            }
+        }
+
+        function aplicarDatos(p, m) {
+            info.innerText = `Online: ${p} / ${m}`;
+            info.style.color = "#22c55e";
+            dot.style.backgroundColor = "#22c55e";
+            dot.style.boxShadow = "0 0 15px #22c55e";
         }
     }
 
-    // Arrancamos el proceso
     actualizarEstado();
-    // Actualiza cada 25 segundos
-    setInterval(actualizarEstado, 25000);
+    setInterval(actualizarEstado, 30000);
 </script>
 </body>
 </html>
