@@ -106,4 +106,166 @@
         }
         .online-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-right: 10px; background-color: #ef4444; transition: 0.5s; }
 
-        .staff-grid
+        .staff-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+        .staff-box { 
+            background: rgba(15, 12, 41, 0.8); 
+            border: 2px solid var(--purple-main); 
+            border-radius: 20px; 
+            padding: 25px; 
+            width: 220px; 
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .staff-box:hover { transform: translateY(-10px); box-shadow: 0 0 25px var(--purple-main); }
+        
+        /* Estilos para Owner */
+        .staff-box.is-owner { border-color: var(--red-owner); }
+        .staff-box.is-owner:hover { box-shadow: 0 0 25px var(--red-owner); }
+        .staff-box.is-owner img { border-color: var(--red-owner); }
+
+        .avatar-container img { width: 100px; height: 100px; border-radius: 15px; border: 2px solid var(--purple-main); margin-bottom: 15px; object-fit: cover; }
+
+        .rank { display: block; padding: 6px; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.7rem; font-weight: bold; margin-top: 10px; color: white; }
+        .owner { background: var(--red-owner); }
+        .admin { background: var(--purple-main); }
+
+        .section-title { font-family: 'Orbitron'; text-align: center; color: var(--purple-main); margin: 40px 0; text-transform: uppercase; letter-spacing: 2px; }
+        footer { text-align: center; padding: 30px; opacity: 0.6; font-size: 0.8rem; border-top: 1px solid rgba(168, 85, 247, 0.2); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><h1>NOVA <span>ROLEPLAY</span></h1></div>
+        <nav>
+            <ul>
+                <li><button class="nav-link" onclick="mostrarSeccion('inicio')">Inicio</button></li>
+                <li><button class="nav-link" onclick="mostrarSeccion('staff')">Staff</button></li>
+                <li><a href="https://discord.gg/sbtcn2HY" class="btn-discord" target="_blank">Discord</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div id="seccion-inicio" class="content-section active">
+            <div class="grid-container">
+                <div class="card status-box">
+                    <h3>SERVIDOR</h3>
+                    <div style="display: flex; align-items: center; justify-content: center; margin: 15px 0;">
+                        <span id="status-dot" class="online-dot"></span>
+                        <p id="player-info" style="margin:0">Consultando...</p>
+                    </div>
+                    <code class="ip-address">142.132.203.47:30858</code>
+                </div>
+
+                <div class="card">
+                    <h3>¿CÓMO EMPEZAR?</h3>
+                    <ol>
+                        <li>Al entrar pones <strong>/referido-Rewkun</strong></li>
+                        <li>Ve a una tienda y compra teléfono y GPS.</li>
+                        <li>Usa <strong>/gps</strong> para ir a tu primer trabajo.</li>
+                        <li>¡Sigue las reglas y disfruta el rol!</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h2 class="section-title">Novedades</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <h3>Actualización v1.1</h3>
+                    <ul style="padding-left: 15px; font-size: 0.9rem; line-height: 1.6;">
+                        <li><b>🌿 ZONA NARANJA:</b> Cultivo libre de drogas habilitado. ¡Zona de alto riesgo!</li>
+                        <li><b>🎒 COMANDO /BS:</b> Nuevo inventario dinámico para tus semillas.</li>
+                        <li><b>🛠️ AJUSTES:</b> Optimización de TextDraws y corrección de guardado.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Sistema de Sugerencias</h3>
+                    <p>¡Queremos escucharte! Si tienes una idea para el servidor, recuerda que tenemos un canal exclusivo en nuestro Discord.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="seccion-staff" class="content-section">
+            <h2 class="section-title">Equipo Administrativo</h2>
+            <div class="staff-grid">
+                <div class="staff-box is-owner">
+                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1053506023811453030/0fc451190c64fc9fdd99063136151dbb.webp?size=1024" alt="Owner"></div>
+                    <h4>Mr Rewkun</h4>
+                    <span class="rank owner">Owner</span>
+                </div>
+                <div class="staff-box is-owner">
+                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1337966495409504379/76956306db9cf508330540568b5fbcb7.webp?size=1024" alt="Owner"></div>
+                    <h4>Alejandro</h4>
+                    <span class="rank owner">Owner</span>
+                </div>
+                <div class="staff-box">
+                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1224123835176058972/4b0a20b172a993f986b73c4d288fc82a.webp?size=1024" alt="Ceo"></div>
+                    <h4>Ariel</h4>
+                    <span class="rank admin">CEO</span>
+                </div>
+                <div class="staff-box">
+                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1299835094131019806/8c7a0dfd91791e9adedda4f1f16b138d.webp?size=1024" alt="Developer"></div>
+                    <h4>Cronos</h4>
+                    <span class="rank admin">Developer</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Nova Roleplay</p>
+    </footer>
+
+    <script>
+        // Navegación fluida
+        function mostrarSeccion(id) {
+            const secciones = document.querySelectorAll('.content-section');
+            for (let s of secciones) s.classList.remove('active');
+            
+            const mostrar = document.getElementById('seccion-' + id);
+            if (mostrar) mostrar.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- LÓGICA DE ESTADO AUTOMÁTICO ---
+        const SERVER_IP = "142.132.203.47";
+        const SERVER_PORT = "30858";
+
+        async function actualizarEstado() {
+            const info = document.getElementById('player-info');
+            const dot = document.getElementById('status-dot');
+
+            try {
+                // Usamos la API de Open.mp que detecta servidores de Lemehost correctamente
+                const res = await fetch(`https://api.open.mp/server/${SERVER_IP}:${SERVER_PORT}`);
+                
+                if (!res.ok) throw new Error();
+                
+                const data = await res.json();
+
+                if (data && data.Address) {
+                    // SI EL SERVIDOR RESPONDE (ABIERTO)
+                    info.innerText = `Online: ${data.Players} / ${data.MaxPlayers}`;
+                    info.style.color = "#22c55e";
+                    dot.style.backgroundColor = "#22c55e";
+                    dot.style.boxShadow = "0 0 15px #22c55e";
+                } else {
+                    throw new Error();
+                }
+            } catch (e) {
+                // SI EL SERVIDOR NO RESPONDE (CERRADO)
+                info.innerText = "Servidor Offline";
+                info.style.color = "#ef4444";
+                dot.style.backgroundColor = "#ef4444";
+                dot.style.boxShadow = "none";
+            }
+        }
+
+        // Ejecutar al cargar y cada 20 segundos
+        actualizarEstado();
+        setInterval(actualizarEstado, 20000);
+    </script>
+</body>
+</html>
