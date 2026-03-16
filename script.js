@@ -14,8 +14,8 @@ function mostrarSeccion(id) {
 /**
  * LÓGICA DE ESTADO AUTOMÁTICO (IP: 135.148.164.122)
  */
-const IP_SERVIDOR = "135.148.164.122"; 
-const PUERTO_SERVIDOR = "30498";
+const IP_SERVIDOR = "142.132.203.47"; 
+const PUERTO_SERVIDOR = "30858";
 
 async function obtenerEstado() {
     const infoTexto = document.getElementById('player-info');
@@ -23,7 +23,7 @@ async function obtenerEstado() {
 
     try {
         // Consultamos directamente a Open.mp (es la más precisa para servidores en Lemehost)
-        const respuesta = await fetch(`https://api.open.mp/server/${IP_SERVIDOR}:${PUERTO_SERVIDOR}`);
+        const respuesta = await fetch(`https://api.open.mp/server/${142.132.203.47}:${30858}`);
         
         // Si la respuesta no es OK, forzamos el error para ir al catch (CERRADO)
         if (!respuesta.ok) throw new Error("Offline");
