@@ -1,45 +1,55 @@
 /**
- * CONFIGURACIÓN DE TU SERVIDOR - NUEVA IP
+ * LÓGICA DE NAVEGACIÓN
  */
-const IP_SERVIDOR = "142.132.203.47"; 
-const PUERTO_SERVIDOR = "30858";
-
-async function actualizarEstado() {
-    const texto = document.getElementById('player-info');
-    const punto = document.getElementById('status-dot');
-
-    try {
-        // Usamos un proxy para evitar bloqueos del hosting o del navegador (CORS)
-        const proxy = "https://api.allorigins.win/get?url=";
-        const apiTarget = `https://api.samp-api.com/v1/server/${IP_SERVIDOR}/${PUERTO_SERVIDOR}`;
-        
-        const respuesta = await fetch(proxy + encodeURIComponent(apiTarget));
-        const json = await respuesta.json();
-        
-        // Parseamos los datos que vienen del túnel
-        const datos = JSON.parse(json.contents);
-
-        if (datos && datos.players !== undefined) {
-            // ESTADO: ACTIVO
-            texto.innerText = `ACTIVO (${datos.players} / ${datos.maxPlayers})`;
-            texto.style.color = "#22c55e"; 
-            punto.style.backgroundColor = "#22c55e";
-            punto.style.boxShadow = "0 0 15px #22c55e";
-        } else {
-            throw new Error("Servidor no responde");
-        }
-    } catch (error) {
-        // ESTADO: APAGADO
-        // Si el servidor está abierto y sale esto, revisa que 'query 1' esté en el cfg
-        texto.innerText = "APAGADO";
-        texto.style.color = "#ef4444"; 
-        punto.style.backgroundColor = "#ef4444";
-        punto.style.boxShadow = "0 0 15px #ef4444";
+function mostrarSeccion(id) {
+    const secciones = document.querySelectorAll('.content-section');
+    secciones.forEach(s => s.classList.remove('active'));
+    const seleccionada = document.getElementById('seccion-' + id);
+    if (seleccionada) {
+        seleccionada.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 
-// Ejecutar al cargar la página
-actualizarEstado();
+/**
+ * LÓGICA DE ESTADO (IP NUEVA: 142.132.203.47:30858)
+ */
+const IP_NUEVA = "142.132.203.47";
+const PUERTO_NUEVO = "30858";
 
-// Actualizar automáticamente cada 20 segundos
+async function actualizarEstado() {
+    // Buscamos los IDs que tienes en tu HTML según la foto
+    const texto = document.getElementById('player-info');
+    const punto = document.getElementById('status-dot');
+
+    // Si no existen estos IDs, el script no hará nada para evitar errores
+    if (!texto || !punto) return;
+
+    try {
+        // Usamos la API de Open.mp que es más confiable para Lemehost
+        const urlApi = `https://api.open.mp/server/${IP_NUEVA}:${PUERTO_NUEVO}`;
+        
+        const respuesta = await fetch(urlApi);
+        if (!respuesta.ok) throw new Error();
+
+        const datos = await respuesta.json();
+
+        if (datos && datos.Address) {
+            texto.innerText = `ACTIVO (${datos.Players} / ${datos.MaxPlayers})`;
+            punto.style.backgroundColor = "#22c55e"; // Verde
+            punto.style.boxShadow = "0 0 15px #22c55e";
+        } else {
+            throw new Error();
+        }
+    } catch (e) {
+        // Si falla, sale OFFLINE
+        texto.innerText = "Servidor Offline";
+        punto.style.backgroundColor = "#ef4444"; // Rojo
+        punto.style.boxShadow = "0 0 10px #ef4444";
+    }
+}
+
+// Ejecutar al cargar
+actualizarEstado();
+// Actualizar cada 20 segundos
 setInterval(actualizarEstado, 20000);
