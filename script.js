@@ -18,34 +18,43 @@ const IP_NUEVA = "142.132.203.47";
 const PUERTO_NUEVO = "30858";
 
 async function actualizarEstado() {
-    // Buscamos los IDs que tienes en tu HTML según la foto
-    const texto = document.getElementById('player-info');
-    const punto = document.getElementById('status-dot');
+    const info = document.getElementById('player-info');
+    const dot = document.getElementById('status-dot');
 
-    // Si no existen estos IDs, el script no hará nada para evitar errores
-    if (!texto || !punto) return;
+    if (!info || !dot) return;
+
+    // IP y Puerto directos para evitar errores de variables
+    const ip = "142.132.203.47";
+    const puerto = "30858";
 
     try {
-        // Usamos la API de Open.mp que es más confiable para Lemehost
-        const urlApi = `https://api.open.mp/server/${IP_NUEVA}:${PUERTO_NUEVO}`;
+        // Usamos una URL mucho más sencilla para el proxy
+        const urlFinal = `https://api.allorigins.win/get?url=${encodeURIComponent('https://api.samp-api.com/v1/server/' + ip + '/' + puerto)}`;
         
-        const respuesta = await fetch(urlApi);
-        if (!respuesta.ok) throw new Error();
+        const res = await fetch(urlFinal);
+        
+        if (!res.ok) throw new Error("Error en Proxy");
 
-        const datos = await respuesta.json();
+        const json = await res.json();
+        
+        if (json.contents) {
+            const data = JSON.parse(json.contents);
 
-        if (datos && datos.Address) {
-            texto.innerText = `ACTIVO (${datos.Players} / ${datos.MaxPlayers})`;
-            punto.style.backgroundColor = "#22c55e"; // Verde
-            punto.style.boxShadow = "0 0 15px #22c55e";
-        } else {
-            throw new Error();
+            if (data && data.players !== undefined) {
+                info.innerText = `Online: ${data.players} / ${data.maxPlayers}`;
+                info.style.color = "#22c55e";
+                dot.style.backgroundColor = "#22c55e";
+                dot.style.boxShadow = "0 0 15px #22c55e";
+            } else {
+                throw new Error("Datos no validos");
+            }
         }
     } catch (e) {
-        // Si falla, sale OFFLINE
-        texto.innerText = "Servidor Offline";
-        punto.style.backgroundColor = "#ef4444"; // Rojo
-        punto.style.boxShadow = "0 0 10px #ef4444";
+        console.error("Detalle del error:", e);
+        info.innerText = "Servidor Offline";
+        info.style.color = "#ef4444";
+        dot.style.backgroundColor = "#ef4444";
+        dot.style.boxShadow = "none";
     }
 }
 
