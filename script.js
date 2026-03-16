@@ -1,56 +1,43 @@
-/**
- * LÓGICA DE NAVEGACIÓN
- */
-function mostrarSeccion(id) {
-    const secciones = document.querySelectorAll('.content-section');
-    secciones.forEach(s => s.classList.remove('active'));
-    const seleccionada = document.getElementById('seccion-' + id);
-    if (seleccionada) {
-        seleccionada.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
+// Configuración de tu servidor
+const SERVER_IP = "135.148.164.122";
+const SERVER_PORT = "30498";
 
-/**
- * LÓGICA DE ESTADO AUTOMÁTICO (IP: 135.148.164.122)
- */
-const IP_SERVIDOR = "142.132.203.47"; 
-const PUERTO_SERVIDOR = "30858";
-
-async function obtenerEstado() {
-    const infoTexto = document.getElementById('player-info');
-    const puntoEstado = document.getElementById('status-dot');
+async function chequearServidor() {
+    const texto = document.getElementById('status-text');
+    const punto = document.getElementById('status-dot');
 
     try {
-        // Consultamos directamente a Open.mp (es la más precisa para servidores en Lemehost)
-        const respuesta = await fetch(`https://api.open.mp/server/${142.132.203.47}:${30858}`);
+        // Usamos la API de Open.mp que es la más precisa
+        const respuesta = await fetch(`https://api.open.mp/server/${SERVER_IP}:${SERVER_PORT}`);
         
-        // Si la respuesta no es OK, forzamos el error para ir al catch (CERRADO)
-        if (!respuesta.ok) throw new Error("Offline");
-
-        const datos = await respuesta.json();
-
-        // Si la API devuelve una dirección, el servidor está ABIERTO
-        if (datos && datos.Address) {
-            infoTexto.innerText = `ABIERTO (${datos.Players} / ${datos.MaxPlayers})`;
-            infoTexto.style.color = "#22c55e"; // Texto verde
-            puntoEstado.style.backgroundColor = "#22c55e";
-            puntoEstado.style.boxShadow = "0 0 15px #22c55e";
+        // Si el servidor responde correctamente
+        if (respuesta.ok) {
+            const datos = await respuesta.json();
+            
+            // Si la API confirma que hay datos del servidor
+            if (datos && datos.Address) {
+                texto.innerText = "ACTIVO";
+                texto.style.color = "#22c55e"; // Verde
+                punto.style.backgroundColor = "#22c55e";
+                punto.style.boxShadow = "0 0 15px #22c55e";
+            } else {
+                throw new Error("Sin respuesta");
+            }
         } else {
-            throw new Error("No data");
+            throw new Error("Offline");
         }
 
     } catch (error) {
-        // Este bloque se ejecuta automáticamente si el servidor está CERRADO
-        infoTexto.innerText = "CERRADO";
-        infoTexto.style.color = "#ef4444"; // Texto rojo
-        puntoEstado.style.backgroundColor = "#ef4444";
-        puntoEstado.style.boxShadow = "0 0 15px #ef4444";
+        // Si hay un error (servidor apagado o error de red)
+        texto.innerText = "APAGADO";
+        texto.style.color = "#ef4444"; // Rojo
+        punto.style.backgroundColor = "#ef4444";
+        punto.style.boxShadow = "0 0 15px #ef4444";
     }
 }
 
-// Ejecutar al cargar la página
-obtenerEstado();
+// Ejecutar cuando cargue la página
+chequearServidor();
 
-// Actualización automática cada 20 segundos
-setInterval(obtenerEstado, 20000);
+// Actualizar cada 15 segundos para que sea automático
+setInterval(chequearServidor, 15000);
