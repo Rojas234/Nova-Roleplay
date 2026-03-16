@@ -12,7 +12,7 @@ function mostrarSeccion(id) {
 }
 
 /**
- * LÓGICA DE ESTADO - ESPECIAL PARA LEMEHOST
+ * LÓGICA DE ESTADO AUTOMÁTICO (IP: 135.148.164.122)
  */
 const IP_SERVIDOR = "135.148.164.122"; 
 const PUERTO_SERVIDOR = "30498";
@@ -22,42 +22,35 @@ async function obtenerEstado() {
     const puntoEstado = document.getElementById('status-dot');
 
     try {
-        // Usamos SAMP-API que es más directa para servidores en hosting compartido
-        const respuesta = await fetch(`https://api.samp-api.com/v1/server/${IP_SERVIDOR}/${PUERTO_SERVIDOR}`);
+        // Consultamos directamente a Open.mp (es la más precisa para servidores en Lemehost)
+        const respuesta = await fetch(`https://api.open.mp/server/${IP_SERVIDOR}:${PUERTO_SERVIDOR}`);
         
-        if (!respuesta.ok) throw new Error();
-        
+        // Si la respuesta no es OK, forzamos el error para ir al catch (CERRADO)
+        if (!respuesta.ok) throw new Error("Offline");
+
         const datos = await respuesta.json();
 
-        // En esta API las propiedades son 'players' y 'maxPlayers'
-        if (datos && datos.players !== undefined) {
-            infoTexto.innerText = `Jugadores: ${datos.players} / ${datos.maxPlayers}`;
+        // Si la API devuelve una dirección, el servidor está ABIERTO
+        if (datos && datos.Address) {
+            infoTexto.innerText = `ABIERTO (${datos.Players} / ${datos.MaxPlayers})`;
+            infoTexto.style.color = "#22c55e"; // Texto verde
             puntoEstado.style.backgroundColor = "#22c55e";
             puntoEstado.style.boxShadow = "0 0 15px #22c55e";
         } else {
-            throw new Error();
+            throw new Error("No data");
         }
+
     } catch (error) {
-        // Si la primera falla, intentamos con Open.mp como último recurso
-        try {
-            const res2 = await fetch(`https://api.open.mp/server/${IP_SERVIDOR}:${PUERTO_SERVIDOR}`);
-            const datos2 = await res2.json();
-            
-            if (datos2 && datos2.Players !== undefined) {
-                infoTexto.innerText = `Jugadores: ${datos2.Players} / ${datos2.MaxPlayers}`;
-                puntoEstado.style.backgroundColor = "#22c55e";
-                puntoEstado.style.boxShadow = "0 0 15px #22c55e";
-            } else {
-                throw new Error();
-            }
-        } catch (e) {
-            // Si el servidor está abierto y sigue saliendo offline, es el Firewall de Lemehost
-            infoTexto.innerText = "Servidor Online (Protegido)";
-            puntoEstado.style.backgroundColor = "#a855f7"; // Color morado para indicar que está activo pero oculto
-            puntoEstado.style.boxShadow = "0 0 15px #a855f7";
-        }
+        // Este bloque se ejecuta automáticamente si el servidor está CERRADO
+        infoTexto.innerText = "CERRADO";
+        infoTexto.style.color = "#ef4444"; // Texto rojo
+        puntoEstado.style.backgroundColor = "#ef4444";
+        puntoEstado.style.boxShadow = "0 0 15px #ef4444";
     }
 }
 
+// Ejecutar al cargar la página
 obtenerEstado();
-setInterval(obtenerEstado, 25000);
+
+// Actualización automática cada 20 segundos
+setInterval(obtenerEstado, 20000);
