@@ -1,6 +1,6 @@
 // Configuración de tu servidor
-const SERVER_IP = "135.148.164.122";
-const SERVER_PORT = "30498";
+const SERVER_IP = "142.132.203.47";
+const SERVER_PORT = "30858";
 
 async function chequearServidor() {
     const texto = document.getElementById('status-text');
@@ -8,7 +8,7 @@ async function chequearServidor() {
 
     try {
         // Usamos la API de Open.mp que es la más precisa
-        const respuesta = await fetch(`https://api.open.mp/server/${SERVER_IP}:${SERVER_PORT}`);
+        const respuesta = await fetch(`https://api.open.mp/server/${142.132.203.47}:${30858}`);
         
         // Si el servidor responde correctamente
         if (respuesta.ok) {
