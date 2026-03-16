@@ -23,34 +23,30 @@ async function actualizarEstado() {
 
     if (!info || !dot) return;
 
-    // IP y Puerto directos para evitar errores de variables
-    const ip = "142.132.203.47";
-    const puerto = "30858";
-
     try {
-        // Usamos una URL mucho más sencilla para el proxy
-        const urlFinal = `https://api.allorigins.win/get?url=${encodeURIComponent('https://api.samp-api.com/v1/server/' + ip + '/' + puerto)}`;
+        // URL pre-construida para evitar cualquier error de sintaxis en el navegador
+        const urlFinal = "https://api.allorigins.win/get?url=" + encodeURIComponent("https://api.samp-api.com/v1/server/142.132.203.47/30858");
         
         const res = await fetch(urlFinal);
         
-        if (!res.ok) throw new Error("Error en Proxy");
+        if (!res.ok) throw new Error("Proxy Error");
 
         const json = await res.json();
         
-        if (json.contents) {
+        if (json && json.contents) {
             const data = JSON.parse(json.contents);
 
             if (data && data.players !== undefined) {
-                info.innerText = `Online: ${data.players} / ${data.maxPlayers}`;
+                info.innerText = "Online: " + data.players + " / " + data.maxPlayers;
                 info.style.color = "#22c55e";
                 dot.style.backgroundColor = "#22c55e";
                 dot.style.boxShadow = "0 0 15px #22c55e";
             } else {
-                throw new Error("Datos no validos");
+                throw new Error("Invalid Data");
             }
         }
     } catch (e) {
-        console.error("Detalle del error:", e);
+        console.error("Error detallado:", e);
         info.innerText = "Servidor Offline";
         info.style.color = "#ef4444";
         dot.style.backgroundColor = "#ef4444";
