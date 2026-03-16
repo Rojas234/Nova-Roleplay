@@ -14,7 +14,7 @@
             --bg-color: #020617;
             --text-white: #f8fafc;
             --glow: 0 0 15px rgba(168, 85, 247, 0.6);
-            --red-owner: #ef4444; /* Color rojo para Owners */
+            --red-owner: #ef4444;
         }
 
         body {
@@ -41,6 +41,7 @@
         }
 
         .logo h1 { font-family: 'Orbitron'; color: var(--purple-main); text-shadow: var(--glow); margin: 0; font-size: 1.5rem; }
+        .logo span { color: white; }
 
         nav ul { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; }
         
@@ -62,12 +63,10 @@
 
         main { padding: 40px 10%; }
 
-        /* --- CONTROL DE PESTAÑAS --- */
         .content-section { display: none !important; }
         .content-section.active { display: block !important; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- GRID DE CONTENIDO --- */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -93,7 +92,6 @@
             padding-bottom: 10px;
         }
 
-        /* --- ESTADO DEL SERVIDOR --- */
         .status-box { text-align: center; }
         .ip-address { 
             display: block; 
@@ -106,198 +104,6 @@
             font-family: monospace;
             font-size: 1.1rem;
         }
-        .online-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-right: 10px; background-color: #6b7280; }
+        .online-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-right: 10px; background-color: #ef4444; transition: 0.5s; }
 
-        /* --- STAFF --- */
-        .staff-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
-        .staff-box { 
-            background: rgba(15, 12, 41, 0.8); 
-            border: 2px solid var(--purple-main); 
-            border-radius: 20px; 
-            padding: 25px; 
-            width: 220px; 
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        /* Si el staff-box contiene un owner, el borde también cambia a rojo */
-        .staff-box:has(.owner) { border-color: var(--red-owner); }
-
-        .staff-box:hover { transform: translateY(-10px); box-shadow: 0 0 25px var(--purple-main); }
-        .staff-box:has(.owner):hover { box-shadow: 0 0 25px var(--red-owner); }
-
-        .avatar-container img { width: 100px; height: 100px; border-radius: 15px; border: 2px solid var(--purple-main); margin-bottom: 15px; object-fit: cover; }
-        
-        /* Borde de foto rojo para owners */
-        .staff-box:has(.owner) .avatar-container img { border-color: var(--red-owner); }
-
-        .rank { display: block; padding: 6px; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.7rem; font-weight: bold; margin-top: 10px; color: white; }
-        
-        /* Rangos: Solo Owner en Rojo, el resto en Morado */
-        .owner { background: var(--red-owner); }
-        .admin { background: var(--purple-main); }
-
-        .section-title { font-family: 'Orbitron'; text-align: center; color: var(--purple-main); margin: 40px 0; text-transform: uppercase; letter-spacing: 2px; }
-        footer { text-align: center; padding: 30px; opacity: 0.6; font-size: 0.8rem; border-top: 1px solid rgba(168, 85, 247, 0.2); }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="logo"><h1>NOVA <span>ROLEPLAY</span></h1></div>
-        <nav>
-            <ul>
-                <li><button class="nav-link" onclick="mostrarSeccion('inicio')">Inicio</button></li>
-                <li><button class="nav-link" onclick="mostrarSeccion('staff')">Staff</button></li>
-                <li><a href="https://discord.gg/sbtcn2HY" class="btn-discord" target="_blank">Discord</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <div id="seccion-inicio" class="content-section active">
-            <div class="grid-container">
-                <div class="card status-box">
-                    <h3>SERVIDOR</h3>
-                    <div style="display: flex; align-items: center; justify-content: center; margin: 15px 0;">
-                        <span id="status-dot" class="online-dot"></span>
-                        <p id="player-info" style="margin:0">Consultando...</p>
-                    </div>
-                    <code class="ip-address">135.148.164.122:30498</code>
-                </div>
-
-                <div class="card">
-                    <h3>¿CÓMO EMPEZAR?</h3>
-                    <ol>
-                        <li>Al entrar pones <strong>/referido-Rewkun</strong></li>
-                        <li>Ve a una tienda y compra teléfono y GPS.</li>
-                        <li>Usa <strong>/gps</strong> para ir a tu primer trabajo.</li>
-                        <li>¡Sigue las reglas y disfruta el rol!</li>
-                    </ol>
-                </div>
-            </div>
-
-            <h2 class="section-title">Novedades</h2>
-            <div class="grid-container">
-                <div class="card">
-                    <h3>Actualización v1.1</h3>
-                    <ol>
-<li>🌿 SISTEMA DE NARCÓTICOS Y ZONA NARANJA
-Hemos habilitado la nueva "Zona Naranja" en el mapa. Este sector estratégico tiene reglas especiales para los jugadores que buscan generar ingresos de alto riesgo:
-
-Cultivo Libre: Dentro de los límites de la zona naranja, está permitido plantar drogas.
-Punto de Suministro: Encontrarás un nuevo Pickup (icono) donde podrás comprar las semillas necesarias para iniciar tu producción.
-Riesgo: Recuerda que al ser una zona liberada, la competencia y el peligro son constantes. ¡Protege tu cosecha!</li>
-
-                        
-
-<li>🎒 NUEVO COMANDO: /BS (BOLSA DE SEMILLAS)
-Para facilitar la gestión de tus recursos, hemos implementado el comando:
-/bs
-
-Al usarlo, se abrirá un inventario dinámico donde podrás visualizar en tiempo real:
-El tipo de semillas que posees.
-La cantidad exacta de cada una en tu inventario.</li>
-                        
-              
-<li>🛠️ OTROS AJUSTES
-Optimización de TextDraws para mejorar el rendimiento en sistemas de bajos recursos.
-Correcciones menores en el sistema de guardado de cuentas.</li>
- </ol>
-                </div>
-                <div class="card">
-                    <h3>Sistema de Sugerencias</h3>
-                    <p>¡Queremos escucharte! Si tienes una idea para el servidor, recuerda que tenemos un canal exclusivo en nuestro Discord.</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="seccion-staff" class="content-section">
-            <h2 class="section-title">Equipo Administrativo</h2>
-            <div class="staff-grid">
-                <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1053506023811453030/0fc451190c64fc9fdd99063136151dbb.webp?size=1024" alt="Owner"></div>
-                    <h4>Mr Rewkun</h4>
-                    <span class="rank owner">Owner</span>
-                </div>
-                <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1337966495409504379/76956306db9cf508330540568b5fbcb7.webp?size=1024" alt="Owner"></div>
-                    <h4>Alejandro</h4>
-                    <span class="rank owner">Owner</span>
-                </div>
-                <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1224123835176058972/4b0a20b172a993f986b73c4d288fc82a.webp?size=1024" alt="Ceo"></div>
-                    <h4>Ariel</h4>
-                    <span class="rank admin">CEO</span>
-                </div>
-                <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1299835094131019806/8c7a0dfd91791e9adedda4f1f16b138d.webp?size=1024" alt="Developer"></div>
-                    <h4>Cronos</h4>
-                    <span class="rank admin">Developer</span>
-                </div>
-                <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1395860839218806945/b9179940454ab20276b6a5f1f75b888f.webp?size=1024" alt="administrador"></div>
-                    <h4>Davo</h4>
-                    <span class="rank admin">Administrador</span>
-                </div>
-                <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1459680832720601188/92c1f741a480198fe2ddcb94d7f27f3e.webp?size=1024" alt="Administrador"></div>
-                    <h4>Perto</h4>
-                    <span class="rank admin">Administrador</span>
-                </div>
-                <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/426583042921070592/1a10a6b7e8717b4bf73731eacc272923.webp?size=1024" alt="Mod prueba"></div>
-                    <h4>Cristian</h4>
-                    <span class="rank admin">Mod a prueba</span>
-                </div>
-                <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1462450392624529594/0760023219121e89cac920fc8620e0a1.webp?size=1024" alt="Ayudante"></div>
-                    <h4>Tommy_Sneakers</h4>
-                    <span class="rank admin">Mod a prueba</span>
-                </div>
-                <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1286048248158752840/f60547428d9da7ccf18063019b503ebd.webp?size=1024" alt="Ayudante"></div>
-                    <h4>Hector_Garcia</h4>
-                    <span class="rank admin">Helper</span>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Nova Roleplay</p>
-    </footer>
-
-    <script>
-        function mostrarSeccion(id) {
-            const secciones = document.getElementsByClassName('content-section');
-            for (let i = 0; i < secciones.length; i++) {
-                secciones[i].classList.remove('active');
-            }
-            const mostrar = document.getElementById('seccion-' + id);
-            if (mostrar) mostrar.classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
-        async function actualizar() {
-            const info = document.getElementById('player-info');
-            const dot = document.getElementById('status-dot');
-            try {
-                const res = await fetch(`https://api.samp-servers.net/v2/server/135.148.164.122:30498`);
-                const data = await res.json();
-                if (data.core.online) {
-                    info.innerText = `Jugadores: ${data.core.players} / ${data.core.maxplayers}`;
-                    dot.style.backgroundColor = "#22c55e";
-                    dot.style.boxShadow = "0 0 10px #22c55e";
-                }
-            } catch (e) {
-                info.innerText = "Servidor Offline";
-                dot.style.backgroundColor = "#ef4444";
-                dot.style.boxShadow = "none";
-            }
-        }
-        actualizar();
-        setInterval(actualizar, 30000);
-    </script>
-</body>
-</html>
+        .staff-grid
