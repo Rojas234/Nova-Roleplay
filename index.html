@@ -15,6 +15,7 @@
             --text-white: #f8fafc;
             --glow: 0 0 15px rgba(168, 85, 247, 0.6);
             --red-owner: #ef4444;
+            --green-online: #22c55e;
         }
 
         body {
@@ -27,6 +28,7 @@
             scroll-behavior: smooth;
         }
 
+        /* --- HEADER --- */
         header {
             display: flex;
             justify-content: space-between;
@@ -58,14 +60,15 @@
         }
         
         .nav-link:hover { color: var(--purple-main); text-shadow: var(--glow); }
-
         .btn-discord { background: #5865F2; padding: 8px 15px; border-radius: 5px; text-decoration: none; color: white; font-weight: bold; }
 
+        /* --- CONTENEDOR PRINCIPAL --- */
         main { padding: 40px 10%; }
 
         .content-section { display: none !important; }
         .content-section.active { display: block !important; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .grid-container {
             display: grid;
@@ -93,38 +96,33 @@
             text-align: center;
         }
 
-        /* Estilos mejorados para el Banner */
-        .status-banner-container {
-            text-align: center;
-            margin: 15px 0;
-        }
+        /* --- ESTADO MANUAL --- */
+        .status-indicator { display: flex; align-items: center; justify-content: center; margin: 15px 0; }
+        .status-dot { height: 12px; width: 12px; border-radius: 50%; margin-right: 10px; }
+        .status-text { font-family: 'Orbitron'; font-weight: bold; }
 
-        .status-banner-container img {
-            max-width: 100%;
-            border-radius: 8px;
-            border: 1px solid var(--purple-main);
-            transition: transform 0.3s;
-        }
-
-        .status-banner-container img:hover {
-            transform: scale(1.02);
-            box-shadow: var(--glow);
-        }
+        /* Cambiar a 'online' u 'offline' manualmente */
+        .status-container.online .status-dot { background: var(--green-online); box-shadow: 0 0 10px var(--green-online); }
+        .status-container.online .status-text { color: var(--green-online); }
+        
+        .status-container.offline .status-dot { background: var(--red-owner); }
+        .status-container.offline .status-text { color: var(--red-owner); }
 
         .ip-address { 
-            display: block; 
-            background: #000; 
-            padding: 12px; 
-            border-radius: 8px; 
-            border: 1px dashed var(--purple-main); 
-            color: var(--purple-main); 
-            margin-top: 15px; 
-            font-family: monospace;
-            font-size: 1.1rem;
-            text-align: center;
+            display: block; background: #000; padding: 12px; border-radius: 8px; 
+            border: 1px dashed var(--purple-main); color: var(--purple-main); 
+            margin-top: 15px; font-family: monospace; text-align: center;
         }
 
-        .staff-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+        /* --- SECCIÓN STAFF (CORREGIDA) --- */
+        .staff-grid { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 30px; 
+            margin-top: 20px;
+        }
+
         .staff-box { 
             background: rgba(15, 12, 41, 0.8); 
             border: 2px solid var(--purple-main); 
@@ -133,19 +131,30 @@
             width: 220px; 
             text-align: center;
             transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .staff-box:hover { transform: translateY(-10px); box-shadow: 0 0 25px var(--purple-main); }
         
         .staff-box.is-owner { border-color: var(--red-owner); }
         .staff-box.is-owner:hover { box-shadow: 0 0 25px var(--red-owner); }
+
+        .avatar-container img { 
+            width: 100px; height: 100px; 
+            border-radius: 15px; border: 2px solid var(--purple-main); 
+            margin-bottom: 15px; object-fit: cover; 
+        }
         .staff-box.is-owner img { border-color: var(--red-owner); }
 
-        .avatar-container img { width: 100px; height: 100px; border-radius: 15px; border: 2px solid var(--purple-main); margin-bottom: 15px; object-fit: cover; }
+        .staff-box h4 { margin: 10px 0 5px 0; font-family: 'Orbitron'; font-size: 1.1rem; }
 
-        .rank { display: block; padding: 6px; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.7rem; font-weight: bold; margin-top: 10px; color: white; }
-        .owner { background: var(--red-owner); }
-        .admin { background: var(--purple-main); }
+        .rank { 
+            display: block; padding: 6px; border-radius: 5px; 
+            font-family: 'Orbitron'; font-size: 0.7rem; 
+            font-weight: bold; margin-top: 10px; color: white; 
+        }
+        .rank.owner { background: var(--red-owner); }
+        .rank.admin { background: var(--purple-main); }
 
         .section-title { font-family: 'Orbitron'; text-align: center; color: var(--purple-main); margin: 40px 0; text-transform: uppercase; letter-spacing: 2px; }
         footer { text-align: center; padding: 30px; opacity: 0.6; font-size: 0.8rem; border-top: 1px solid rgba(168, 85, 247, 0.2); }
@@ -168,23 +177,23 @@
         <div id="seccion-inicio" class="content-section active">
             <div class="grid-container">
                 <div class="card">
-<div class="card">
-    <h3>ESTADO DEL SERVIDOR</h3>
-    <div id="manual-status" class="status-container online">
-        <div class="status-indicator">
-            <span class="status-dot"></span>
-            <span class="status-text">APAGADO</span>
-        </div>
-    </div>
-    <code class="ip-address">135.148.164.122:30498</code>
-</div>
+                    <h3>ESTADO DEL SERVIDOR</h3>
+                    <div id="manual-status" class="status-container offline">
+                        <div class="status-indicator">
+                            <span class="status-dot"></span>
+                            <span class="status-text">APAGADO</span>
+                        </div>
+                    </div>
+                    <code class="ip-address">135.148.164.122:30498</code>
+                </div>
+
                 <div class="card">
                     <h3>¿CÓMO EMPEZAR?</h3>
                     <ol style="line-height: 1.8;">
                         <li>Al entrar pones <strong>/referido-Rewkun</strong></li>
                         <li>Ve a una tienda y compra teléfono y GPS.</li>
                         <li>Usa <strong>/gps</strong> para ir a tu primer trabajo.</li>
-                        <li>¡Sigue las reglas y disfruta el rol!</li>
+                        <li>¡Disfruta el rol!</li>
                     </ol>
                 </div>
             </div>
@@ -194,14 +203,14 @@
                 <div class="card">
                     <h3>Actualización v1.1</h3>
                     <ul style="padding-left: 15px; font-size: 0.9rem; line-height: 1.6;">
-                        <li><b>🌿 ZONA NARANJA:</b> Cultivo libre de drogas habilitado.</li>
-                        <li><b>🎒 COMANDO /BS:</b> Nuevo inventario dinámico para semillas.</li>
-                        <li><b>🛠️ AJUSTES:</b> Optimización de TextDraws y guardado.</li>
+                        <li><b>🌿 ZONA NARANJA:</b> Cultivo libre habilitado.</li>
+                        <li><b>🎒 COMANDO /BS:</b> Inventario de semillas.</li>
+                        <li><b>🛠️ AJUSTES:</b> Optimización de TextDraws.</li>
                     </ul>
                 </div>
                 <div class="card">
-                    <h3>Sistema de Sugerencias</h3>
-                    <p>¡Queremos escucharte! Si tienes una idea para el servidor, recuerda que tenemos un canal exclusivo en nuestro Discord.</p>
+                    <h3>Sugerencias</h3>
+                    <p>Si tienes una idea, recuerda usar el canal de Discord.</p>
                 </div>
             </div>
         </div>
@@ -210,22 +219,33 @@
             <h2 class="section-title">Equipo Administrativo</h2>
             <div class="staff-grid">
                 <div class="staff-box is-owner">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1053506023811453030/0fc451190c64fc9fdd99063136151dbb.webp?size=1024" alt="Owner"></div>
+                    <div class="avatar-container">
+                        <img src="https://cdn.discordapp.com/avatars/1053506023811453030/0fc451190c64fc9fdd99063136151dbb.webp?size=1024" alt="Owner">
+                    </div>
                     <h4>Mr Rewkun</h4>
                     <span class="rank owner">Owner</span>
                 </div>
+
                 <div class="staff-box is-owner">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1337966495409504379/76956306db9cf508330540568b5fbcb7.webp?size=1024" alt="Owner"></div>
+                    <div class="avatar-container">
+                        <img src="https://cdn.discordapp.com/avatars/1337966495409504379/76956306db9cf508330540568b5fbcb7.webp?size=1024" alt="Owner">
+                    </div>
                     <h4>Alejandro</h4>
                     <span class="rank owner">Owner</span>
                 </div>
+
                 <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1224123835176058972/4b0a20b172a993f986b73c4d288fc82a.webp?size=1024" alt="Ceo"></div>
+                    <div class="avatar-container">
+                        <img src="https://cdn.discordapp.com/avatars/1224123835176058972/4b0a20b172a993f986b73c4d288fc82a.webp?size=1024" alt="Ceo">
+                    </div>
                     <h4>Ariel</h4>
                     <span class="rank admin">CEO</span>
                 </div>
+
                 <div class="staff-box">
-                    <div class="avatar-container"><img src="https://cdn.discordapp.com/avatars/1299835094131019806/8c7a0dfd91791e9adedda4f1f16b138d.webp?size=1024" alt="Developer"></div>
+                    <div class="avatar-container">
+                        <img src="https://cdn.discordapp.com/avatars/1299835094131019806/8c7a0dfd91791e9adedda4f1f16b138d.webp?size=1024" alt="Developer">
+                    </div>
                     <h4>Cronos</h4>
                     <span class="rank admin">Developer</span>
                 </div>
@@ -238,12 +258,13 @@
     </footer>
 
     <script>
-        // MANTENEMOS SOLO LA NAVEGACIÓN
         function mostrarSeccion(id) {
             const secciones = document.querySelectorAll('.content-section');
             secciones.forEach(s => s.classList.remove('active'));
             const mostrar = document.getElementById('seccion-' + id);
-            if (mostrar) mostrar.classList.add('active');
+            if (mostrar) {
+                mostrar.classList.add('active');
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
