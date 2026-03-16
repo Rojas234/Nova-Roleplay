@@ -96,16 +96,17 @@
             text-align: center;
         }
 
-        /* --- ESTADO MANUAL --- */
+        /* --- ESTADO MANUAL (CON COLORES AUTOMÁTICOS) --- */
         .status-indicator { display: flex; align-items: center; justify-content: center; margin: 15px 0; }
-        .status-dot { height: 12px; width: 12px; border-radius: 50%; margin-right: 10px; }
-        .status-text { font-family: 'Orbitron'; font-weight: bold; }
+        .status-dot { height: 12px; width: 12px; border-radius: 50%; margin-right: 10px; transition: 0.3s; }
+        .status-text { font-family: 'Orbitron'; font-weight: bold; transition: 0.3s; }
 
-        /* Cambiar a 'online' u 'offline' manualmente */
+        /* Estilos cuando está ONLINE */
         .status-container.online .status-dot { background: var(--green-online); box-shadow: 0 0 10px var(--green-online); }
-        .status-container.online .status-text { color: var(--green-online); }
+        .status-container.online .status-text { color: var(--green-online); text-shadow: 0 0 5px rgba(34, 197, 94, 0.4); }
         
-        .status-container.offline .status-dot { background: var(--red-owner); }
+        /* Estilos cuando está OFFLINE */
+        .status-container.offline .status-dot { background: var(--red-owner); box-shadow: 0 0 5px var(--red-owner); }
         .status-container.offline .status-text { color: var(--red-owner); }
 
         .ip-address { 
@@ -114,7 +115,7 @@
             margin-top: 15px; font-family: monospace; text-align: center;
         }
 
-        /* --- SECCIÓN STAFF (CORREGIDA) --- */
+        /* --- SECCIÓN STAFF --- */
         .staff-grid { 
             display: flex; 
             flex-wrap: wrap; 
@@ -135,7 +136,6 @@
         }
 
         .staff-box:hover { transform: translateY(-10px); box-shadow: 0 0 25px var(--purple-main); }
-        
         .staff-box.is-owner { border-color: var(--red-owner); }
         .staff-box.is-owner:hover { box-shadow: 0 0 25px var(--red-owner); }
 
@@ -178,10 +178,10 @@
             <div class="grid-container">
                 <div class="card">
                     <h3>ESTADO DEL SERVIDOR</h3>
-                    <div id="manual-status" class="status-container offline">
+                    <div id="manual-status" class="status-container online">
                         <div class="status-indicator">
                             <span class="status-dot"></span>
-                            <span class="status-text">APAGADO</span>
+                            <span class="status-text">ENCENDIDO</span>
                         </div>
                     </div>
                     <code class="ip-address">135.148.164.122:30498</code>
@@ -202,29 +202,20 @@
             <div class="grid-container">
                 <div class="card">
                     <h3>Actualización v1.1</h3>
-                    <ul style="padding-left: 15px; font-size: 0.9rem; line-height: 1.6;">
-                        <li><b>🌿 ZONA NARANJA:</b> Hemos habilitado la nueva "Zona Naranja" en el mapa. Este sector estratégico tiene reglas especiales para los jugadores que buscan generar ingresos de alto riesgo:</li>
+                    <ul style="padding-left: 15px; font-size: 0.9rem; line-height: 1.6; list-style-type: none;">
+                        <li><b>🌿 ZONA NARANJA:</b></li>
+                        <li style="margin-bottom: 10px; color: #ccc;">Sector estratégico con cultivo libre de drogas y punto de suministro de semillas. ¡Protege tu cosecha!</li>
                         
-                        <strong><li>Cultivo Libre: Dentro de los límites de la zona naranja, está permitido plantar drogas.</li></strong>
+                        <li><b>🎒 COMANDO /BS:</b></li>
+                        <li style="margin-bottom: 10px; color: #ccc;">Nuevo inventario dinámico para ver tus semillas y cantidades en tiempo real.</li>
                         
-                        <strong><li>Punto de Suministro: Encontrarás un nuevo Pickup (icono) donde podrás comprar las semillas necesarias para iniciar tu producción.</li></strong>
-                        
-                        <strong><li>Riesgo: Recuerda que al ser una zona liberada, la competencia y el peligro son constantes. ¡Protege tu cosecha!</li></strong>
-                        
-                        <li><b>🎒 COMANDO /BS:</b> Al usarlo, se abrirá un inventario dinámico donde podrás visualizar en tiempo real:</li>
-                        
-                        <strong><li>El tipo de semillas que posees.</li></strong>
-                        
-                        <<strong>li>La cantidad exacta de cada una en tu inventario.</li></strong>
-                        
-                        <li><b>🛠️ AJUSTES:</b>Optimización de TextDraws para mejorar el rendimiento en sistemas de bajos recursos.</li>
-                        
-                        <strong><li>Correcciones menores en el sistema de guardado de cuentas.</li></strong>
+                        <li><b>🛠️ AJUSTES:</b></li>
+                        <li style="color: #ccc;">Optimización de TextDraws y corrección en el guardado de cuentas.</li>
                     </ul>
                 </div>
                 <div class="card">
                     <h3>Sugerencias</h3>
-                    <p>Si tienes una idea, recuerda usar el canal de Discord.</p>
+                    <p>Si tienes una idea, recuerda usar el canal de Discord para que el equipo administrativo pueda revisarla.</p>
                 </div>
             </div>
         </div>
