@@ -90,9 +90,27 @@
             font-size: 1.2rem;
             border-bottom: 1px solid rgba(168, 85, 247, 0.3);
             padding-bottom: 10px;
+            text-align: center;
         }
 
-        .status-box { text-align: center; }
+        /* Estilos mejorados para el Banner */
+        .status-banner-container {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .status-banner-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--purple-main);
+            transition: transform 0.3s;
+        }
+
+        .status-banner-container img:hover {
+            transform: scale(1.02);
+            box-shadow: var(--glow);
+        }
+
         .ip-address { 
             display: block; 
             background: #000; 
@@ -103,8 +121,8 @@
             margin-top: 15px; 
             font-family: monospace;
             font-size: 1.1rem;
+            text-align: center;
         }
-        .online-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-right: 10px; background-color: #ef4444; transition: 0.5s; }
 
         .staff-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
         .staff-box { 
@@ -119,7 +137,6 @@
 
         .staff-box:hover { transform: translateY(-10px); box-shadow: 0 0 25px var(--purple-main); }
         
-        /* Estilos para Owner */
         .staff-box.is-owner { border-color: var(--red-owner); }
         .staff-box.is-owner:hover { box-shadow: 0 0 25px var(--red-owner); }
         .staff-box.is-owner img { border-color: var(--red-owner); }
@@ -150,18 +167,20 @@
     <main>
         <div id="seccion-inicio" class="content-section active">
             <div class="grid-container">
-                <div class="card status-box">
-                    <h3>SERVIDOR</h3>
-                    <div style="display: flex; align-items: center; justify-content: center; margin: 15px 0;">
-                        <span id="status-dot" class="online-dot"></span>
-                        <p id="player-info" style="margin:0">Consultando...</p>
+                <div class="card">
+                    <h3>ESTADO DEL SERVIDOR</h3>
+                    <div class="status-banner-container">
+                        <a href="samp://142.132.203.47:30858">
+                            <img src="https://api.monstermc.website/samp/142.132.203.47:30858/banner.png" alt="Estado del Servidor">
+                        </a>
+                        <p style="font-size: 0.8rem; color: #888; margin-top: 5px;">(Click en la imagen para entrar)</p>
                     </div>
                     <code class="ip-address">142.132.203.47:30858</code>
                 </div>
 
                 <div class="card">
                     <h3>¿CÓMO EMPEZAR?</h3>
-                    <ol>
+                    <ol style="line-height: 1.8;">
                         <li>Al entrar pones <strong>/referido-Rewkun</strong></li>
                         <li>Ve a una tienda y compra teléfono y GPS.</li>
                         <li>Usa <strong>/gps</strong> para ir a tu primer trabajo.</li>
@@ -175,9 +194,9 @@
                 <div class="card">
                     <h3>Actualización v1.1</h3>
                     <ul style="padding-left: 15px; font-size: 0.9rem; line-height: 1.6;">
-                        <li><b>🌿 ZONA NARANJA:</b> Cultivo libre de drogas habilitado. ¡Zona de alto riesgo!</li>
-                        <li><b>🎒 COMANDO /BS:</b> Nuevo inventario dinámico para tus semillas.</li>
-                        <li><b>🛠️ AJUSTES:</b> Optimización de TextDraws y corrección de guardado.</li>
+                        <li><b>🌿 ZONA NARANJA:</b> Cultivo libre de drogas habilitado.</li>
+                        <li><b>🎒 COMANDO /BS:</b> Nuevo inventario dinámico para semillas.</li>
+                        <li><b>🛠️ AJUSTES:</b> Optimización de TextDraws y guardado.</li>
                     </ul>
                 </div>
                 <div class="card">
@@ -218,59 +237,15 @@
         <p>&copy; 2026 Nova Roleplay</p>
     </footer>
 
-<script>
-    function mostrarSeccion(id) {
-        const secciones = document.querySelectorAll('.content-section');
-        secciones.forEach(s => s.classList.remove('active'));
-        const mostrar = document.getElementById('seccion-' + id);
-        if (mostrar) mostrar.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    async function actualizarEstado() {
-        const info = document.getElementById('player-info');
-        const dot = document.getElementById('status-dot');
-        if (!info || !dot) return;
-
-        const IP = "142.132.203.47";
-        const PORT = "30858";
-
-        // Intentamos primero con la API de SAMP-API (más flexible con servers nuevos)
-        try {
-            const response = await fetch(`https://api.samp-api.com/v1/server/${IP}/${PORT}`);
-            if (!response.ok) throw new Error();
-            const data = await response.json();
-            
-            aplicarDatos(data.players, data.maxPlayers);
-        } catch (e) {
-            // Si la primera falla, intentamos con Open.mp como respaldo
-            try {
-                const res2 = await fetch(`https://api.open.mp/server/${IP}:${PORT}`);
-                const data2 = await res2.json();
-                if (data2 && data2.Players !== undefined) {
-                    aplicarDatos(data2.Players, data2.MaxPlayers);
-                } else {
-                    throw new Error();
-                }
-            } catch (err) {
-                // Si ambas fallan, mostrar Offline
-                info.innerText = "Servidor Offline";
-                info.style.color = "#ef4444";
-                dot.style.backgroundColor = "#ef4444";
-                dot.style.boxShadow = "none";
-            }
+    <script>
+        // MANTENEMOS SOLO LA NAVEGACIÓN
+        function mostrarSeccion(id) {
+            const secciones = document.querySelectorAll('.content-section');
+            secciones.forEach(s => s.classList.remove('active'));
+            const mostrar = document.getElementById('seccion-' + id);
+            if (mostrar) mostrar.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        function aplicarDatos(p, m) {
-            info.innerText = `Online: ${p} / ${m}`;
-            info.style.color = "#22c55e";
-            dot.style.backgroundColor = "#22c55e";
-            dot.style.boxShadow = "0 0 15px #22c55e";
-        }
-    }
-
-    actualizarEstado();
-    setInterval(actualizarEstado, 30000);
-</script>
+    </script>
 </body>
 </html>
