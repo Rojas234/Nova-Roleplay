@@ -218,54 +218,55 @@
         <p>&copy; 2026 Nova Roleplay</p>
     </footer>
 
-    <script>
-        // Navegación fluida
-        function mostrarSeccion(id) {
-            const secciones = document.querySelectorAll('.content-section');
-            for (let s of secciones) s.classList.remove('active');
+<script>
+    // Navegación
+    function mostrarSeccion(id) {
+        const secciones = document.querySelectorAll('.content-section');
+        for (let s of secciones) s.classList.remove('active');
+        const mostrar = document.getElementById('seccion-' + id);
+        if (mostrar) mostrar.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- LÓGICA DE ESTADO CON TÚNEL ANTI-ERROR ---
+    const SERVER_IP = "142.132.203.47";
+    const SERVER_PORT = "30858";
+
+    async function actualizarEstado() {
+        const info = document.getElementById('player-info');
+        const dot = document.getElementById('status-dot');
+
+        try {
+            // Usamos un proxy (AllOrigins) para evitar el error 404 y el bloqueo CORS
+            const proxy = "https://api.allorigins.win/get?url=";
+            const target = encodeURIComponent(`https://api.samp-api.com/v1/server/${SERVER_IP}/${SERVER_PORT}`);
             
-            const mostrar = document.getElementById('seccion-' + id);
-            if (mostrar) mostrar.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+            const res = await fetch(proxy + target);
+            const json = await res.json();
+            
+            // Los datos reales están dentro de json.contents
+            const data = JSON.parse(json.contents);
 
-        // --- LÓGICA DE ESTADO AUTOMÁTICO ---
-        const SERVER_IP = "142.132.203.47";
-        const SERVER_PORT = "30858";
-
-        async function actualizarEstado() {
-            const info = document.getElementById('player-info');
-            const dot = document.getElementById('status-dot');
-
-            try {
-                // Usamos la API de Open.mp que detecta servidores de Lemehost correctamente
-                const res = await fetch(`https://api.open.mp/server/${SERVER_IP}:${SERVER_PORT}`);
-                
-                if (!res.ok) throw new Error();
-                
-                const data = await res.json();
-
-                if (data && data.Address) {
-                    // SI EL SERVIDOR RESPONDE (ABIERTO)
-                    info.innerText = `Online: ${data.Players} / ${data.MaxPlayers}`;
-                    info.style.color = "#22c55e";
-                    dot.style.backgroundColor = "#22c55e";
-                    dot.style.boxShadow = "0 0 15px #22c55e";
-                } else {
-                    throw new Error();
-                }
-            } catch (e) {
-                // SI EL SERVIDOR NO RESPONDE (CERRADO)
-                info.innerText = "Servidor Offline";
-                info.style.color = "#ef4444";
-                dot.style.backgroundColor = "#ef4444";
-                dot.style.boxShadow = "none";
+            if (data && data.players !== undefined) {
+                info.innerText = `Online: ${data.players} / ${data.maxPlayers}`;
+                info.style.color = "#22c55e";
+                dot.style.backgroundColor = "#22c55e";
+                dot.style.boxShadow = "0 0 15px #22c55e";
+            } else {
+                throw new Error();
             }
+        } catch (e) {
+            // Si el servidor está abierto y sigue saliendo Offline, 
+            // asegúrate de tener "query 1" en tu server.cfg
+            info.innerText = "Servidor Offline";
+            info.style.color = "#ef4444";
+            dot.style.backgroundColor = "#ef4444";
+            dot.style.boxShadow = "none";
         }
+    }
 
-        // Ejecutar al cargar y cada 20 segundos
-        actualizarEstado();
-        setInterval(actualizarEstado, 20000);
-    </script>
+    actualizarEstado();
+    setInterval(actualizarEstado, 30000); // Actualiza cada 30 segundos
+</script>
 </body>
 </html>
